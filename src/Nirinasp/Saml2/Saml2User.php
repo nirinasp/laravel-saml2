@@ -1,20 +1,20 @@
 <?php
 
-namespace Aacotroneo\Saml2;
+namespace Nirinasp\Saml2;
 
 use OneLogin\Saml2\Auth as OneLogin_Saml2_Auth;
 
 /**
  * A simple class that represents the user that 'came' inside the saml2 assertion
  * Class Saml2User
- * @package Aacotroneo\Saml2
+ * @package Nirinasp\Saml2
  */
 class Saml2User
 {
 
     protected $auth;
 
-    function __construct(OneLogin_Saml2_Auth $auth)
+    public function __construct(OneLogin_Saml2_Auth $auth)
     {
         $this->auth = $auth;
     }
@@ -22,7 +22,7 @@ class Saml2User
     /**
      * @return string User Id retrieved from assertion processed this request
      */
-    function getUserId()
+    public function getUserId()
     {
         $auth = $this->auth;
 
@@ -33,7 +33,7 @@ class Saml2User
     /**
      * @return array attributes retrieved from assertion processed this request
      */
-    function getAttributes()
+    public function getAttributes()
     {
         $auth = $this->auth;
 
@@ -46,7 +46,7 @@ class Saml2User
      * @param string $name The requested attribute of the user.
      * @return array|null Requested SAML attribute ($name).
      */
-    function getAttribute($name) {
+    public function getAttribute($name) {
         $auth = $this->auth;
 
         return $auth->getAttribute($name);
@@ -55,7 +55,7 @@ class Saml2User
     /**
      * @return array attributes retrieved from assertion processed this request
      */
-    function getAttributesWithFriendlyName()
+    public function getAttributesWithFriendlyName()
     {
         $auth = $this->auth;
 
@@ -65,12 +65,12 @@ class Saml2User
     /**
      * @return string the saml assertion processed this request
      */
-    function getRawSamlAssertion()
+    public function getRawSamlAssertion()
     {
         return app('request')->input('SAMLResponse'); //just this request
     }
 
-    function getIntendedUrl()
+    public function getIntendedUrl()
     {
         $relayState = app('request')->input('RelayState'); //just this request
 
@@ -89,7 +89,7 @@ class Saml2User
      * @param string $propertyName
      * @return array|null
      */
-    function parseUserAttribute($samlAttribute = null, $propertyName = null) {
+    public function parseUserAttribute($samlAttribute = null, $propertyName = null) {
         if(empty($samlAttribute)) {
             return null;
         }
@@ -105,20 +105,51 @@ class Saml2User
      *
      * @param array $attributes Array of properties which need to be parsed, like this ['email' => 'urn:oid:0.9.2342.19200300.100.1.3']
      */
-    function parseAttributes($attributes = array()) {
+    public function parseAttributes($attributes = array()) {
         foreach($attributes as $propertyName => $samlAttribute) {
             $this->parseUserAttribute($samlAttribute, $propertyName);
         }
     }
 
-    function getSessionIndex()
+    public function getSessionIndex()
     {
         return $this->auth->getSessionIndex();
     }
 
-    function getNameId()
+
+    public function getNameId()
     {
         return $this->auth->getNameId();
+    }
+
+    /**
+     * Returns the nameID Format
+     *
+     * @return string  The nameID Format of the assertion
+     */
+    public function getNameIdFormat()
+    {
+        return $this->auth->getNameIdFormat();
+    }
+
+    /**
+     * Returns the nameID NameQualifier
+     *
+     * @return string  The nameID NameQualifier of the assertion
+     */
+    public function getNameIdNameQualifier()
+    {
+        return $this->auth->getNameIdNameQualifier();
+    }
+
+    /**
+     * Returns the nameID SP NameQualifier
+     *
+     * @return string  The nameID SP NameQualifier of the assertion
+     */
+    public function getNameIdSPNameQualifier()
+    {
+        return $this->auth->getNameIdSPNameQualifier();
     }
 
 }

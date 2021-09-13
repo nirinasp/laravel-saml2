@@ -1,10 +1,10 @@
 <?php
 
-namespace Aacotroneo\Saml2;
+namespace Nirinasp\Saml2;
 
 use OneLogin\Saml2\Auth as OneLogin_Saml2_Auth;
 use OneLogin\Saml2\Error as OneLogin_Saml2_Error;
-use Aacotroneo\Saml2\Events\Saml2LogoutEvent;
+use Nirinasp\Saml2\Events\Saml2LogoutEvent;
 
 use Log;
 use Psr\Log\InvalidArgumentException;
@@ -132,11 +132,11 @@ class Saml2Auth
      *
      * @throws OneLogin_Saml2_Error
      */
-    function logout($returnTo = null, $nameId = null, $sessionIndex = null, $nameIdFormat = null, $stay = false, $nameIdNameQualifier = null)
+    function logout($returnTo = null, $nameId = null, $sessionIndex = null, $nameIdFormat = null, $stay = false, $nameIdNameQualifier = null, $nameIdSPNameNameQualifier = null)
     {
         $auth = $this->auth;
 
-        return $auth->logout($returnTo, [], $nameId, $sessionIndex, $stay, $nameIdFormat, $nameIdNameQualifier);
+        return $auth->logout($returnTo, [], $nameId, $sessionIndex, $stay, $nameIdFormat, $nameIdNameQualifier, $nameIdSPNameNameQualifier);
     }
 
     /**
